@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0xl2gyj2wepd"]
+
+[ext_resource type="PackedScene" uid="uid://ivdis8jm737y" path="res://Scenes/wall.tscn" id="1_da43n"]
+[ext_resource type="Script" path="res://Scripts/game_controller.gd" id="1_licxb"]
+[ext_resource type="PackedScene" uid="uid://bib6cnk5lk2il" path="res://Scenes/player.tscn" id="2_gl8hq"]
+[ext_resource type="PackedScene" uid="uid://cdrp4mh7kt308" path="res://Scenes/map_boundary.tscn" id="4_8hkpt"]
+[ext_resource type="PackedScene" uid="uid://bsqtwuot85505" path="res://Scenes/lose_zone.tscn" id="6_ii4ju"]
+
+[node name="Map" type="Node3D"]
+script = ExtResource("1_licxb")
+
+[node name="Wall" parent="." instance=ExtResource("1_da43n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004, 5, -1)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 10)
+
+[node name="player" parent="." instance=ExtResource("2_gl8hq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 15, 15)
+light_energy = 0.5
+
+[node name="map boundary" parent="." instance=ExtResource("4_8hkpt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 0
+collision_mask = 3
+
+[node name="lose zone" parent="." instance=ExtResource("6_ii4ju")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[connection signal="area_entered" from="map boundary" to="." method="_on_map_boundary_area_entered"]
+[connection signal="body_entered" from="map boundary" to="." method="_on_map_boundary_body_entered"]
+[connection signal="area_entered" from="lose zone" to="." method="_on_lose_zone_area_entered"]

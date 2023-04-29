@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c67j0uipsribl"]
+
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_gdryh"]
+[ext_resource type="PackedScene" uid="uid://bh60vgei11hyq" path="res://Scenes/hurtbox.tscn" id="1_r417e"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gwson"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3c1mp"]
+size = Vector3(0.588698, 1, 0.608843)
+
+[node name="Enemy" type="Node3D"]
+script = ExtResource("1_gdryh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_gwson")
+
+[node name="Hurtbox" parent="." instance=ExtResource("1_r417e")]
+collision_mask = 3
+
+[node name="CollisionShape3D" parent="Hurtbox" index="0"]
+shape = SubResource("BoxShape3D_3c1mp")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
+
+[editable path="Hurtbox"]
