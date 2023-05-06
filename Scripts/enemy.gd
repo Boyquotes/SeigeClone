@@ -7,10 +7,12 @@ var _movement_speed : float = 1.0
 
 
 func _process(delta):
+	# Enemies should still fall even if the game is over.
 	if _is_falling:
 		drop(delta)
 	
-	climb_wall(delta)
+	if not GameState.is_game_over():
+		climb_wall(delta)
 
 
 func _on_hurtbox_body_entered(body):

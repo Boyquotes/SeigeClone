@@ -23,6 +23,11 @@ func _ready():
 		create_enemy()
 
 
+func _process(delta):
+#TODO: check isGameOver state and display "you lose" text if true then give player option to restart
+	pass
+
+
 func _input(event):
 	if event.is_action_pressed("quit"):
 		get_tree().quit()
@@ -32,7 +37,6 @@ func _input(event):
 
 ## creates a new enemy instance at a random point along the base of the wall
 func create_enemy() -> void:
-	
 	var enemy_instance = _enemy_scene.instantiate()
 	
 #TODO: fix enemies spawning on top of one another
@@ -54,5 +58,6 @@ func _on_map_boundary_area_entered(area):
 
 func _on_lose_zone_area_entered(area):
 	if area.get_parent() is enemy:
+		GameState.set_game_over(true) 
 		print("you lose")
 		area.get_parent().queue_free()

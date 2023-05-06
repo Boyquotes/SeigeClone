@@ -16,10 +16,11 @@ func _ready():
 
 
 func _process(delta):
-	if _ball_instance != null and Input.is_action_just_pressed("drop_ball"):
-		drop_ball()
-	
-	move_player(delta)
+	if not GameState.is_game_over():
+		if _ball_instance != null and Input.is_action_just_pressed("drop_ball"):
+			drop_ball()
+		
+		move_player(delta)
 
 
 ## controls player movement
