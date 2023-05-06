@@ -11,7 +11,8 @@ extends Node3D
 
 @export var MIN_STARTING_ENEMIES : int = 3
 @export var MAX_STARTING_ENEMIES : int = 6
-@export var _you_lose_UI : CanvasLayer
+@export var _you_lose_label : Label
+@export var _score_label : Label
 
 
 func _ready():
@@ -24,13 +25,18 @@ func _ready():
 		create_enemy()
 
 
-func _process(delta):
+func _process(_delta):
 	if GameState.is_game_over():
-		_you_lose_UI.show()
+		_you_lose_label.show()
+		
+		if GameState.is_new_high_score():
+			_you_lose_label.text += "\nNEW HIGH SCORE! - " + str(GameState.get_player_score())
 		
 		if Input.is_action_just_pressed("accept"):
-			GameState.set_game_over(false)
 			restart_game()
+	
+	#idk if this is smart doing this every frame but ¯\_(ツ)_/¯
+	_score_label.text = "Score: " + str(GameState.get_player_score())
 
 
 func _input(event):
@@ -68,9 +74,7 @@ func _on_lose_zone_area_entered(area):
 
 
 func restart_game() -> void:
-	print("Score: " + str(GameState.get_player_score()))
-	if GameState.is_new_high_score():
-		print("NEW HIGH SCORE!")
+	_you_lose_label.text = "You Lose!\n(Press 'x' to Try Again)"
 	
 	GameState.set_game_over(false)
 	GameState.set_player_score(0)

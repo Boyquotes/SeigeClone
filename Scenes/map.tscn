@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0xl2gyj2wepd"]
+[gd_scene load_steps=8 format=3 uid="uid://d0xl2gyj2wepd"]
 
 [ext_resource type="PackedScene" uid="uid://ivdis8jm737y" path="res://Scenes/wall.tscn" id="1_da43n"]
 [ext_resource type="Script" path="res://Scripts/game_controller.gd" id="1_licxb"]
@@ -6,10 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://cdrp4mh7kt308" path="res://Scenes/map_boundary.tscn" id="4_8hkpt"]
 [ext_resource type="PackedScene" uid="uid://bsqtwuot85505" path="res://Scenes/lose_zone.tscn" id="6_ii4ju"]
 [ext_resource type="LabelSettings" uid="uid://dqndce3vdngen" path="res://Label Settings/game_over_label_settings.tres" id="6_n7j7u"]
+[ext_resource type="LabelSettings" uid="uid://q8iok26bf10s" path="res://Label Settings/score_label_settings.tres" id="7_gmrlx"]
 
-[node name="Map" type="Node3D" node_paths=PackedStringArray("_you_lose_UI")]
+[node name="Map" type="Node3D" node_paths=PackedStringArray("_you_lose_label", "_score_label")]
 script = ExtResource("1_licxb")
-_you_lose_UI = NodePath("You Lose UI")
+_you_lose_label = NodePath("UI/You Lose")
+_score_label = NodePath("UI/Score")
 
 [node name="Wall" parent="." instance=ExtResource("1_da43n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004, 5, -1)
@@ -32,10 +34,10 @@ collision_mask = 3
 [node name="lose zone" parent="." instance=ExtResource("6_ii4ju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 
-[node name="You Lose UI" type="CanvasLayer" parent="."]
-visible = false
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="You Lose UI"]
+[node name="You Lose" type="Label" parent="UI"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -45,6 +47,19 @@ text = "You Lose!
 (Press 'x' to Try Again)"
 label_settings = ExtResource("6_n7j7u")
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -126.0
+offset_bottom = 59.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Score = 0"
+label_settings = ExtResource("7_gmrlx")
 vertical_alignment = 1
 
 [connection signal="area_entered" from="map boundary" to="." method="_on_map_boundary_area_entered"]
