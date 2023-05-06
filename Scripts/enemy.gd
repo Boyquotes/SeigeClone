@@ -18,6 +18,7 @@ func _process(delta):
 func _on_hurtbox_body_entered(body):
 	if body is ball:
 #TODO: maybe ball continues to fall to bot, but can't knock anyone else down
+		GameState.inc_player_score(1)
 		body.queue_free()
 	
 	_is_falling = true
@@ -27,8 +28,10 @@ func drop(delta : float):
 	position.y -= 1 * _gravity * delta
 
 
-func _on_hurtbox_area_entered(_area):
-	_is_falling = true
+func _on_hurtbox_area_entered(area):
+	if area.get_parent() is enemy and area.get_parent()._is_falling:
+		_is_falling = true
+		GameState.inc_player_score(2) # bonus points for combos
 
 
 func is_falling() -> bool:

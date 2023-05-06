@@ -68,4 +68,10 @@ func _on_lose_zone_area_entered(area):
 
 
 func restart_game() -> void:
+	print("Score: " + str(GameState.get_player_score()))
+	if GameState.is_new_high_score():
+		print("NEW HIGH SCORE!")
+	
+	GameState.set_game_over(false)
+	GameState.set_player_score(0)
 	get_tree().reload_current_scene()
