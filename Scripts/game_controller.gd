@@ -11,6 +11,7 @@ extends Node3D
 
 @export var MIN_STARTING_ENEMIES : int = 3
 @export var MAX_STARTING_ENEMIES : int = 6
+@export var _you_lose_UI : CanvasLayer
 
 
 func _ready():
@@ -24,15 +25,19 @@ func _ready():
 
 
 func _process(delta):
-#TODO: check isGameOver state and display "you lose" text if true then give player option to restart
-	pass
+	if GameState.is_game_over():
+		_you_lose_UI.show()
+		
+		if Input.is_action_just_pressed("accept"):
+			GameState.set_game_over(false)
+			restart_game()
 
 
 func _input(event):
 	if event.is_action_pressed("quit"):
 		get_tree().quit()
 	if event.is_action_pressed("restart"):
-		get_tree().reload_current_scene()
+		restart_game()
 
 
 ## creates a new enemy instance at a random point along the base of the wall
@@ -61,3 +66,7 @@ func _on_lose_zone_area_entered(area):
 		GameState.set_game_over(true) 
 		print("you lose")
 		area.get_parent().queue_free()
+
+
+func restart_game() -> void:
+	get_tree().reload_current_scene()
