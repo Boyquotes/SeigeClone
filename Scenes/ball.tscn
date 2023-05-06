@@ -11,9 +11,10 @@ material = ExtResource("1_luq1s")
 radius = 0.1
 height = 0.2
 
-[node name="ball" type="CharacterBody3D"]
+[node name="ball" type="CharacterBody3D" node_paths=PackedStringArray("_collision_shape")]
 collision_layer = 2
 script = ExtResource("1_oacr7")
+_collision_shape = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_54mxj")
