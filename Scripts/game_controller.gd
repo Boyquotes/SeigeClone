@@ -64,7 +64,6 @@ func _on_map_boundary_area_entered(area):
 func _on_lose_zone_area_entered(area):
 	if area.get_parent() is enemy:
 		GameState.set_game_over(true) 
-		print("you lose")
 		area.get_parent().queue_free()
 
 
